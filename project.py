@@ -1,35 +1,40 @@
+#%%
 import pandas as pd
+from pandas.plotting import scatter_matrix
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.api as sm
-from sklearn.datasets import load_iris
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from sklearn.tree import DecisionTreeClassifier, plot_tree
+import shap
+import pycaret
+#%%
+df_raw = pd.read_csv("C:/Users/user/Desktop/2PD_v1_0822.csv", encoding='CP949')
 
-FILE_ID = "1pDUe-oXGh_mqAORcGKKYIBkemNUMDVtC"
-GID = "0"  
-xlsx_url = f"https://docs.google.com/spreadsheets/d/{FILE_ID}/export?format=xlsx"
-df = pd.read_excel(xlsx_url, engine="openpyxl")  
-print(df.head())
-print(df.info())
+df_raw.info()
 
-X = df.drop(columns=["id", "burnout60"])
-y = df["burnout60"]
+df = df_raw
+#%%
+cols = [
+    "wstat4", "wstat6",
+    "wwa1", "wwa2", "wwa3", "wwa4", "wwa5",
+    "sleep1", "sleep2", "sleep3",
+    "imte1", "imte2", "imte3", "imte4", "imte5",
+    "wsituation12", "wsituation14"
+]
 
-from sklearn.preprocessing import LabelEncoder
-for col in X.select_dtypes(include=["object"]).columns:
-    X[col] = LabelEncoder().fit_transform(X[col].astype(str))
+# 변환 딕셔너리 (5점 척도 역코딩)
+reverse_map = {1: 5, 2: 4, 3: 3, 4: 2, 5: 1}
 
-print(X.head())
-print(X.info())
+# 여러 열에 적용
+for col in cols:
+    df_raw[col] = df_raw[col].map(reverse_map).fillna(df_raw[col])
 
-X = df.iloc[:, 0:-1]
-y = df["burnout60"]
 
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, 
-                                                    test_size=0.3, 
-                                                    random_state=42)
-print("train 데이터: ", X_train.shape)
-print("test 데이터: ", X_test.shape)
+#%%
+print(df_raw.columns.tolist())
+#%%
+print(df_raw[cols].head())
+#%%
+df["wstat4"].head(10) 
+# %%
+
