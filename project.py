@@ -37,11 +37,11 @@ print(df_raw[cols].head())
 #%%
 df["wstat4"].head(10) 
 #%%
-df_raw["heal_abs1"] = np.where(df_raw["heal_abs1"] == 0, 0, 1)
+df_raw["heal_abs1_group"] = np.where(df_raw["heal_abs1"] == 0, 0, 1)
 #%%
-print(df_raw["heal_abs1"].head())
+print(df_raw["heal_abs1_group"].head())
 #%%
-df_raw["heal_abs1"].value_counts()
+df_raw["heal_abs1_group"].value_counts()
 #%%
 
 # 구간 (0~60, 61~120, 181 이상)
