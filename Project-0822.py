@@ -38,7 +38,7 @@ print(df_raw[cols].head())
 df["wstat4"].head(10) 
 
 #%%
-df_raw["heal_abs1"] = np.where(df_raw["heal_abs1"] == 0, 0, 1)
+df_raw["heal_abs1_group"] = np.where(df_raw["heal_abs1"] == 0, 0, 1)
 #%%
 print(df_raw["heal_abs1"].head())
 #%%
