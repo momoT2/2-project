@@ -36,5 +36,21 @@ print(df_raw.columns.tolist())
 print(df_raw[cols].head())
 #%%
 df["wstat4"].head(10) 
-# %%
+#%%
+df_raw["heal_abs1"] = np.where(df_raw["heal_abs1"] == 0, 0, 1)
+#%%
+print(df_raw["heal_abs1"].head())
+#%%
+df_raw["heal_abs1"].value_counts()
+#%%
 
+# 구간 (0~60, 61~120, 181 이상)
+bins = [0, 60, 120, float("inf")]
+labels = [1, 2, 3]
+
+df_raw["ctime_group"] = pd.cut(df_raw["ctime"], bins=bins, labels=labels, right=True)
+#%%
+print(df_raw["ctime_group"].head())
+#%%
+df_raw["ctime_group"].value_counts()
+#%%
